@@ -1,0 +1,13 @@
+搭建后端--koa2
+1.安装koa2脚手架插件
+npm install -g koa-generator
+2.创建项目
+koa2 -e life_record
+3.安装依赖
+npm install
+4.运行项目
+npm run dev
+
+安装数据库MongoDB，启动数据库服务
+
+在koa中配置数据库
