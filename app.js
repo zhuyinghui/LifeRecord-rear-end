@@ -6,8 +6,6 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 
-const index = require('./routes/index')
-const users = require('./routes/users')
 
 // error handler
 onerror(app)
@@ -25,21 +23,31 @@ app.use(views(__dirname + '/views', {
 }))
 
 // logger
-app.use(async (ctx, next) => {
-  const start = new Date()
-  await next()
-  const ms = new Date() - start
-  console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
-})
+// app.use(async (ctx, next) => {
+//   const start = new Date()
+//   await next()
+//   const ms = new Date() - start
+//   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
+// })
 
-// routes
-app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
+ //注册路由
+const fs =  require('fs');
+fs.readdirSync('./routes').forEach(route=> {
+ let api = require(`./routes/${route}`);
+ app.use(api.routes(), api.allowedMethods())
+});
+
+//跨域处理
+ const cors = require('koa2-cors');
+ app.use(cors());
 
 // error-handling
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
 });
 
+//连接数据库
+ const db = require('./public/mongodb');
+ db.connect();
 
-module.exports = app
+module.exports = app;
