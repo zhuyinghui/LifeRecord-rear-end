@@ -33,8 +33,8 @@ app.use(views(__dirname + '/views', {
  //注册路由
 const fs =  require('fs');
 fs.readdirSync('./routes').forEach(route=> {
- let api = require(`./routes/${route}`);
- app.use(api.routes(), api.allowedMethods())
+  let api = require(`./routes/${route}`);
+  app.use(api.routes(), api.allowedMethods())
 });
 
 //跨域处理
@@ -47,7 +47,8 @@ app.on('error', (err, ctx) => {
 });
 
 //连接数据库
- const db = require('./public/mongodb');
+ const db = require('./model/mongodb');
  db.connect();
+
 
 module.exports = app;
