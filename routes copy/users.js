@@ -14,8 +14,8 @@ router.get('/', async ctx=> {
 
 //用户注册
 router.post('/',async ctx=>{
-  let doc=new userModel(ctx.request.body);
-  await doc.save().then(data=>{
+  let data=new userModel(ctx.request.body);
+  await data.save().then(data=>{
     ctx.body={
       status:200,
       message:'注册成功',
