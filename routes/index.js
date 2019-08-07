@@ -7,5 +7,7 @@ router.get('/', async (ctx, next) => {
   
 });
 
-
+router.get('/manage/users',async ctx=>{
+  await ctx.render('userManage')
+})
 module.exports = router

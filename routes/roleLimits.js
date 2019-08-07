@@ -12,7 +12,6 @@ router.post('/', async ctx=> {
       message:'角色赋予权限成功',
       data:data
     }
-
   })
 })
 

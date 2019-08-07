@@ -4,9 +4,18 @@ const userModel=require('../model/userModel');
 
 //用户查询
 router.get('/', async ctx=> {
-  await userModel.find({}).then(data=>{
+  let num=0;
+  //表的总记录数
+   await userModel.countDocuments().then(data=>{
+     num=data;
+   })
+  //分页
+  const skipNum=(ctx.request.query.page-1)*ctx.request.query.limit*1;
+  const limitNum=ctx.request.query.limit*1;
+  await userModel.find({}).skip(skipNum).limit(limitNum).then(data=>{
     ctx.body={
-      status:200,
+      code:0,
+      count:num,
       data:data
     }
   })

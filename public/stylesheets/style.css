@@ -1,8 +1,13 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  display: flex;flex-wrap: wrap;
+  min-width: 1550px;
 }
 
-a {
-  color: #00B7FF;
+#container{
+  width: 1350px;
+  padding: 20px;
+  box-sizing: border-box;
+  height: 100%;
 }
