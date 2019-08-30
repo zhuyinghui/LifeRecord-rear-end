@@ -1,11 +1,11 @@
 const router = require('koa-router')();
-router.prefix('/users');
+router.prefix('/api/users');
 const userModel=require('../model/userModel');
 
-//用户查询
+//用户查询 /api/users?page=1&limit=10
 router.get('/', async ctx=> {
-  let num=0;
   //表的总记录数
+  let num=0;
    await userModel.countDocuments().then(data=>{
      num=data;
    })

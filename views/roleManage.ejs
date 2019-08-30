@@ -10,14 +10,9 @@
     <div class="content">
         <span class="layui-breadcrumb">
             <a href="javascript:;">用户权限设置</a>
-            <a><cite>用户管理</cite></a>
+            <a><cite>角色管理</cite></a>
           </span>
       <table class="layui-hide" id="test" lay-filter="test"></table>
-      <script type="text/html" id="toolbarDemo">
-        <div class="layui-btn-container">
-          <button class="layui-btn layui-btn-sm" onclick="addData()"><i class="layui-icon layui-icon-add-1"></i> 新增</button>
-        </div>
-      </script>
       <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">禁用</a>
@@ -27,22 +22,21 @@
 </html>
 <script src="/layui/layui.all.js" charset="utf-8"></script>
 <script>
+layui.use('table', function(){
   var table = layui.table;
+  
   table.render({
     elem: '#test'
-    ,url:'/api/users'
-    ,toolbar: '#toolbarDemo'
-    ,title: '用户表'
+    ,url:'/api/roles'
+    ,title: '角色表'
     ,cols: [[
-      {field:'_id', title:'用户编号', sort: true}
-      ,{field:'userName', title:'用户名'}
-     ,{field:'userPassword',title:'用户密码'}
-     ,{field:'headImage',title:'头像'}
-     ,{field:'loverId',title:'情侣'}
+      {field:'_id', title:'角色编号', sort: true}
+      ,{field:'roleName', title:'角色名'}
      ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
     ]]
     ,page: true
   });
+  
   //监听行工具事件
   table.on('tool(test)', function(obj){
     var data = obj.data;
@@ -63,13 +57,5 @@
       });
     }
   });
-  function addData(){
-    layer.open({
-        title:'添加用户',
-        type: 2, 
-        content: ['/addUser', 'no'],
-        area: ['500px', '300px']
-      }); 
-  }
-
+});
 </script>

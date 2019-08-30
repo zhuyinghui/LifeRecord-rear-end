@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>LifeRecord</title>
+    <link rel='stylesheet' href='/style.css' />
+    <link rel='stylesheet' href='/layui/css/layui.css' media="all"/>
+  </head>
+  <body>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+              <label class="layui-form-label">用户名</label>
+              <div class="layui-input-block">
+                <input type="text" name="userName" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">密码框</label>
+              <div class="layui-input-inline">
+                <input type="password" name="userPassword" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">角色</label>
+              <div class="layui-input-block">
+                <select name="city" lay-verify="required">
+                  <option value=""></option>
+                  <!-- <option :value="t._id" v-for="t in roles">222</option> -->
+                </select>
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+              </div>
+            </div>
+          </form>
+   
+            <div id="app">
+            <p v-for="item in roles">{{item.roleName}}</p>
+            {{aa}}
+          </div>
+  </body>
+</html>
+<style>
+  .layui-form{
+    width: 400px;
+    padding-top: 50px;
+  }
+</style>
+<script src="/layui/layui.all.js" charset="utf-8"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+layui.use('form', function(){
+  var form = layui.form;
+  
+  //监听提交
+  form.on('submit(formDemo)', function(data){
+    layer.msg(JSON.stringify(data.field));
+    return false;
+  });
+});
+
+  var form = layui.form;
+  //监听提交
+  form.on('submit(formDemo)', function(data){
+    console.log(data.field)
+    axios.post('/api/users',data.field)
+      .then(res=>{
+        layer.msg(res.data.message);
+      })
+      .catch(err=>{
+        console.log(err)
+      })
+    return false;
+  });
+
+  let app=new Vue({
+    el: '#app',
+    data: {
+      roles: [],
+      aa:'     jjj'
+    },
+    mounted(){
+      //获取权限列表
+      axios.get('/api/roles?page=1&limit=10')
+        .then(res=>{
+          console.log(res.data.data)
+          this.roles=res.data.data;
+        })
+        .catch(err=>{
+          console.log(err)
+        })
+    }
+  });
+
+  
+
+  
+
+  
+</script>

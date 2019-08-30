@@ -1,13 +1,18 @@
 const router = require('koa-router')()
 
-router.get('/', async (ctx, next) => {
+//路由页
+router.get('/', async ctx=>{
   await ctx.render('index', {
-    title: 'Hello Koa 2!'
+    alink: '/home'
   })
-  
 });
-
-router.get('/manage/users',async ctx=>{
-  await ctx.render('userManage')
-})
+//渲染页面
+const fs =  require('fs');
+fs.readdirSync('./views').forEach(page=> {
+  let apage=page.replace('.ejs','')
+  console.log(apage)
+  router.get('/'+apage,async ctx=>{
+    await ctx.render(apage)
+  })
+});
 module.exports = router

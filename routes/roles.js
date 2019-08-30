@@ -1,12 +1,21 @@
 const router = require('koa-router')();
-router.prefix('/roles');
+router.prefix('/api/roles');
 const roleModel=require('../model/roleModel');
 
 //角色查询
 router.get('/', async ctx=> {
-  await roleModel.find({}).then(data=>{
+  //表的总记录数
+  let num=0;
+   await roleModel.countDocuments().then(data=>{
+     num=data;
+   })
+  //分页
+  const skipNum=(ctx.request.query.page-1)*ctx.request.query.limit*1;
+  const limitNum=ctx.request.query.limit*1;
+  await roleModel.find({}).skip(skipNum).limit(limitNum).then(data=>{
     ctx.body={
-      status:200,
+      code:0,
+      count:num,
       data:data
     }
   })

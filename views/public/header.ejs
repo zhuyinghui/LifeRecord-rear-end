@@ -6,60 +6,55 @@
     <link rel='stylesheet' href='/layui/css/layui.css' media="all"/>
   </head>
   <body>
-      <!-- <div class="content"> -->
-            <!-- 头部导航栏 -->
-            <ul class="layui-nav" style="width: 100%">
-                <li class="layui-nav-item">
-                    <a href="/" style="font-size: 28px">LifeRecord</a>
-                </li>
-                <li class="layui-nav-item">
-                <a href="/">控制台</a>
-                </li>
-                <li class="layui-nav-item">
-                <a href="">个人中心<span class="layui-badge-dot"></span></a>
-                </li>
-                <li class="layui-nav-item" lay-unselect="">
-                <a href="javascript:;"><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
-                <dl class="layui-nav-child">
-                    <dd><a href="javascript:;">修改信息</a></dd>
-                    <dd><a href="javascript:;">安全管理</a></dd>
-                    <dd><a href="javascript:;">退了</a></dd>
-                </dl>
-                </li>
-            </ul>
-
-            <!-- 垂直菜单栏 -->
-            <ul class="layui-nav layui-nav-tree layui-inline" lay-filter="demo">
+      <div class="headbar">
+          个人博客
+        </div>
+            <!-- 垂直菜单栏-->
+            <ul class="navbar layui-nav layui-nav-tree layui-inline" lay-filter="demo">
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a href="javascript:;">用户权限设置</a>
+                    <a>权限</a>
                     <dl class="layui-nav-child">
-                    <dd><a href="/manage/users">用户管理</a></dd>
-                    <dd><a href="javascript:;">角色管理</a></dd>
-                    <dd><a href="javascript:;">权限管理</a></dd>
+                    <dd><a href="/userManage" target="Ciframe">用户管理</a></dd>
+                    <dd><a href="/roleManage" target="Ciframe">角色管理</a></dd>
+                    <dd><a href="/limitManage" target="Ciframe">权限管理</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item">
-                    <a href="javascript:;">解决方案</a>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a>博客</a>
                     <dl class="layui-nav-child">
-                    <dd><a href="">移动模块</a></dd>
-                    <dd><a href="">后台模版</a></dd>
-                    <dd><a href="">电商平台</a></dd>
+                    <dd><a href="javascript:;">发布</a></dd>
+                    <dd><a href="javascript:;">管理</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a href="">云市场</a></li>
-                <li class="layui-nav-item"><a href="">社区</a></li>
+                <li class="layui-nav-item"><a href="">其它</a></li>
             </ul>
-      <!-- </div> -->
-   
   </body>
 </html>
-<script src="/layui/layui.js"></script>
+<style>
+  body{
+    display: flex;
+    flex-flow: row wrap;
+  }
+.navbar{
+  height:-webkit-fill-available;
+  border-radius: 0;
+}
+.headbar{
+  width: 100%;
+  height: 50px;
+  background: #23262E;
+  color: #fff;
+  line-height: 50px;
+  padding-left: 50px;
+}
+</style>
+<script src="/layui/layui.all.js" charset="utf-8"></script>
 <script>
 layui.use('element', function(){
   var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
   //监听导航点击
   element.on('nav(demo)', function(elem){
-    layer.msg(elem.text());
+    // layer.msg(elem.text());
   });
 });
 </script>

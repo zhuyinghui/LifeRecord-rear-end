@@ -1,12 +1,21 @@
 const router = require('koa-router')();
-router.prefix('/limits');
+router.prefix('/api/limits');
 const limitModel=require('../model/limitModel');
 
 //权限查询
 router.get('/', async ctx=> {
-  await limitModel.find({}).then(data=>{
+  //表的总记录数
+  let num=0;
+   await limitModel.countDocuments().then(data=>{
+     num=data;
+   })
+  //分页
+  const skipNum=(ctx.request.query.page-1)*ctx.request.query.limit*1;
+  const limitNum=ctx.request.query.limit*1;
+  await limitModel.find({}).skip(skipNum).limit(limitNum).then(data=>{
     ctx.body={
-      status:200,
+      code:0,
+      count:num,
       data:data
     }
   })
