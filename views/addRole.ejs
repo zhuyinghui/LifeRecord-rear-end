@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>LifeRecord</title>
+    <link rel='stylesheet' href='/style.css' />
+    <link rel='stylesheet' href='/layui/css/layui.css' media="all"/>
+  </head>
+  <body>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+              <label class="layui-form-label">角色名</label>
+              <div class="layui-input-block">
+                <input name="roleName" type="text" required lay-verify="required" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">权限</label>
+              <div class="layui-input-block">
+                  <% for(let i of limitlist){ %>
+                    <input type="checkbox" name=<%= i.limitName %> title= <%= i.limitName %> checked > 
+                  <% } %>
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">添加</button>
+              </div>
+            </div>
+          </form>
+  </body>
+</html>
+<style>
+  .layui-form{
+    width: 400px;
+    padding-top: 50px;
+  }
+</style>
+<script src="/layui/layui.all.js"></script>
+<script src="/axios/axios.min.js"></script>
+<script>
+  let form = layui.form;
+  form.on('submit(formDemo)', function(data){
+    let limitarr=[];
+    for(let i in data.field){
+      if(i!=='roleName'){
+        limitarr.push(i)
+      }
+    }
+    axios.post('/api/roles',{
+      roleName:data.field.roleName,
+      limitArr:limitarr
+    }).then(res=>{
+        layer.msg(res.data.message);
+        setTimeout(()=>{
+          //关闭iframe弹窗
+          let index = parent.layer.getFrameIndex(window.name); 
+          parent.layer.close(index); 
+        },1000)
+      })
+      .catch(err=>{
+        console.log(err)
+      })
+
+    return false;
+  });
+
+
+
+  
+
+  
+
+  
+</script>

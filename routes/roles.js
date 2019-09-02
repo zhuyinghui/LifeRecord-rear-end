@@ -24,26 +24,22 @@ router.get('/', async ctx=> {
 //角色添加
 router.post('/',async ctx=>{
   let doc=new roleModel(ctx.request.body);
-  await doc.save().then(data=>{
+  await doc.save().then(()=>{
    ctx.body={
-      status:200,
       message:'角色添加成功',
-      data:data
     }
   })
 })
-
 
 //角色删除
 router.delete('/',async ctx=>{
- await roleModel.deleteOne({roleName:'会员555'})
- .then(data=>{
+ await roleModel.deleteOne({_id:ctx.request.query._id})
+ .then(()=>{
     ctx.body={
-      status:200,
       message:'角色删除成功',
-      data:data
     }
   })
 })
+
 
 module.exports = router

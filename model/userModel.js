@@ -1,5 +1,6 @@
 //用户表
 const mongoose = require("mongoose");
+
 const schema={
     userName:String,
     userPassword:String,
@@ -10,6 +11,10 @@ const schema={
     loverId:{
         type:String,
         default:'123456'
+    },
+    roleId:{  
+        type:String,
+        ref:'role'
     }
 }
 const Schema=mongoose.Schema(schema);

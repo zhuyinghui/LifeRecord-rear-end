@@ -13,14 +13,8 @@
             <a><cite>用户管理</cite></a>
           </span>
       <table class="layui-hide" id="test" lay-filter="test"></table>
-      <script type="text/html" id="toolbarDemo">
-        <div class="layui-btn-container">
-          <button class="layui-btn layui-btn-sm" onclick="addData()"><i class="layui-icon layui-icon-add-1"></i> 新增</button>
-        </div>
-      </script>
       <script type="text/html" id="barDemo">
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">禁用</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">修改角色</a>
       </script>
     </div>
   </body>
@@ -31,7 +25,6 @@
   table.render({
     elem: '#test'
     ,url:'/api/users'
-    ,toolbar: '#toolbarDemo'
     ,title: '用户表'
     ,cols: [[
       {field:'_id', title:'用户编号', sort: true}
@@ -39,37 +32,32 @@
      ,{field:'userPassword',title:'用户密码'}
      ,{field:'headImage',title:'头像'}
      ,{field:'loverId',title:'情侣'}
+     ,{field:'roleId',title:'角色',templet: `<div>{{d.roleId.roleName}}</div>`}
      ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
     ]]
     ,page: true
   });
   //监听行工具事件
   table.on('tool(test)', function(obj){
-    var data = obj.data;
+    let data = obj.data;
     if(obj.event === 'del'){
       layer.confirm('真的删除行么', function(index){
         obj.del();
         layer.close(index);
       });
     } else if(obj.event === 'edit'){
-      layer.prompt({
-        formType: 2
-        ,value: data.email
-      }, function(value, index){
-        obj.update({
-          email: value
-        });
-        layer.close(index);
-      });
-    }
-  });
-  function addData(){
-    layer.open({
+      layer.open({
         title:'添加用户',
         type: 2, 
-        content: ['/addUser', 'no'],
-        area: ['500px', '300px']
+        content: ['/changeRole', 'no'],
+        area: ['500px', '400px'],
+        success: function(layero, index){
+          let body = layer.getChildFrame('body', index);
+          body.find('#userName').val(data.userName)
+          body.find('#userId').val(data._id)
+        }
       }); 
-  }
+    }
+  });
 
 </script>

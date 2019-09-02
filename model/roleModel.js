@@ -1,7 +1,8 @@
 //角色表
 const mongoose = require("mongoose");
 const schema={
-    roleName:String
+    roleName:String,
+    limitArr:Array
 }
 const Schema=mongoose.Schema(schema);
 const Model=mongoose.model('role',Schema);

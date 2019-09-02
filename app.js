@@ -20,6 +20,12 @@ app.use(views(__dirname + '/views', {
   extension: 'ejs'
 }))
 
+const url = require('url');
+app.use(async(ctx,next)=>{
+  console.log(ctx.request.method+url.parse(ctx.request.url).pathname)
+  await next();
+})
+
  //注册路由
 const fs =  require('fs');
 fs.readdirSync('./routes').forEach(route=> {
