@@ -38,23 +38,27 @@
   let E = window.wangEditor
   let editor = new E('#editor')
 
-  editor.customConfig.uploadImgServer = '/upload'; //上传图片地址接口
-  editor.customConfig.uploadImgHeaders = {  //请求头
-    'Accept': 'text/x-json'
-  }
-  editor.create()
+  editor.customConfig.uploadImgServer = 'http://localhost:3000/api/upload'; //上传图片地址接口
+ //设置上传图片的header
+    editor.customConfig.uploadImgHeaders = {
+      'enctype':'multipart/form-data'
+    };
+
+  editor.customConfig.uploadFileName = 'mypic';
+
+  editor.create();
  
   function publish(){
     let title=document.querySelector('#title').value;
     let content=editor.txt.html();
     let date=new Date().toLocaleString();
     if(title!==''&&content!=='<p><br></p>'){
-      axios.post('/blogs',{
+      axios.post('/api/blogs',{
         userId:'123456',
         blogTitle:title,
         blogContent:content,
         publishTime:date
-      })
+      }) 
       .then(res=>{
         layer.msg(res.data.message);
         editor.txt.clear();

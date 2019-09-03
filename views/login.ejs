@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>LifeRecord</title>
+    <link rel='stylesheet' href='/style.css' />
+    <link rel='stylesheet' href='/layui/css/layui.css' media="all"/>
+  </head>
+  <body>
+    <div class="content">
+      <h1>个人博客管理后台</h1>
+      <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-block">
+              <input type="text" name="userName" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-block">
+              <input type="password" name="userPassword" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+              <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">登录</button>
+              </div>
+            </div>
+        </form>
+    </div>
+  </body>
+</html>
+<style>
+  html{
+    height: 100%;
+    background: url('/images/backImg.jpg');
+    background-size: 100% auto;
+  }
+  .content{
+    width: 400px;
+    margin:15% auto 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fff;
+  }
+  .layui-form{
+    padding-right: 50px;
+  }
+  h1{
+    margin:20px;
+  }
+</style>
+<script src="/layui/layui.all.js" charset="utf-8"></script>
+<script src="/axios/axios.min.js"></script>
+<script>
+var form = layui.form;
+form.on('submit(formDemo)', function(data){
+    axios.post('/api/users/login',data.field,{
+      headers:{sessionId:sessionStorage.sessionId}
+    })
+    .then(res=>{
+      if(res.data.status==1){
+        if (typeof(Storage) !== "undefined") {
+          layer.msg(res.data.message);
+          sessionStorage.setItem('sessionId',res.data.sessionId)
+        }else{
+          console.error('浏览器不支持HTML本地存储对象')
+        }
+        // window.location.href='/'
+      }else{
+        layer.msg(res.data.message);
+      }
+    })
+    .catch(err=>{
+      console.log(err)
+    })
+    return false;
+  });
+</script>

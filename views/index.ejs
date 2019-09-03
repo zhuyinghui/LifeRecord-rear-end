@@ -9,16 +9,22 @@
   <body>
     <%- include('./public/header') %>
     <div class="container">
-      <iframe src="<%= alink %>" height="100%" width="100%" scrolling="no" name="Ciframe">
+      <iframe src="<%= alink %>" height="100%" width="100%" scrolling="no" name="Ciframe" id="iframe">
       </iframe>
     </div>
   </body>
 </html>
 <style>
+html{
+    background: url('/images/backImg2.jpg');
+    background-size: 100% auto;
+  }
 .container{
   flex: 1;
 }
 </style>
 <script>
-
+  function indexfn(){
+    console.log('indexfunction');
+  }
 </script>

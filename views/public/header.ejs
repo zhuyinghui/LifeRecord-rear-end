@@ -7,7 +7,9 @@
   </head>
   <body>
       <div class="headbar">
-          个人博客
+          <div>个人博客</div>
+          <div id="login"><a href="#">退出</a></div>
+          <div id="nologin"><a href="/login">登录</a></div>
         </div>
             <!-- 垂直菜单栏-->
             <ul class="navbar layui-nav layui-nav-tree layui-inline" lay-filter="demo">
@@ -30,31 +32,34 @@
             </ul>
   </body>
 </html>
-<style>
-  body{
-    display: flex;
-    flex-flow: row wrap;
-  }
-.navbar{
-  height:-webkit-fill-available;
-  border-radius: 0;
-}
-.headbar{
-  width: 100%;
-  height: 50px;
-  background: #23262E;
-  color: #fff;
-  line-height: 50px;
-  padding-left: 50px;
-}
-</style>
 <script src="/layui/layui.all.js" charset="utf-8"></script>
 <script>
-layui.use('element', function(){
-  var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
-  //监听导航点击
-  element.on('nav(demo)', function(elem){
-    // layer.msg(elem.text());
-  });
-});
+  if(sessionStorage.sessionId!==undefined){
+    document.querySelector('#nologin').style.display='none';
+  }else{
+    document.querySelector('#login').style.display='none';
+  }
 </script>
+<style>
+    body{
+      display: flex;
+      flex-flow: row wrap;
+    }
+  .navbar{
+    height:-webkit-fill-available;
+    border-radius: 0;
+  }
+  .headbar{
+    width: 100%;
+    /* height: 50px; */
+    background: #23262E;
+    color: #fff;
+    line-height: 50px;
+    padding:0 50px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .headbar a{
+    color: #fff;
+  }
+  </style>

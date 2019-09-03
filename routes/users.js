@@ -2,6 +2,33 @@ const router = require('koa-router')();
 router.prefix('/api/users');
 const userModel=require('../model/userModel');
 
+//用户登录
+router.post('/login',async ctx=>{
+  const info=ctx.request.body;
+  await userModel.find({userName:info.userName}).then(data=>{
+    if(data.length==0){
+      ctx.body={
+        status:0,
+        message:'用户名不存在'
+      }
+    }else{
+      if(data[0].userPassword==info.userPassword){
+        ctx.body={
+          status:1,
+          message:'登录成功',
+          sessionId:data[0]._id
+        }
+      }else{
+        ctx.body={
+          status:0,
+          message:'密码错误'
+        }
+      }
+    }
+  })
+})
+
+
 //用户查询
 router.get('/', async ctx=> {
   //表的总记录数
