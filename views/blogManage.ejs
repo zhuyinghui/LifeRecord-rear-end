@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>LifeRecord</title>
+    <link rel='stylesheet' href='/style.css' />
+    <link rel='stylesheet' href='/layui/css/layui.css' media="all"/>
+  </head>
+  <body>
+      <div class="content">
+        <span class="layui-breadcrumb">
+          <a href="javascript:;">博客</a>
+          <a><cite>管理</cite></a>
+        </span>
+        <table class="layui-hide" id="test" lay-filter="test"></table>
+        <script type="text/html" id="barDemo">
+          <a class="layui-btn layui-btn-xs" lay-event="del">删除</a>
+        </script>
+      </div>
+  </body>
+</html>
+<style>
+</style>
+<script src="/layui/layui.all.js" charset="utf-8"></script>
+<script src="/axios/axios.min.js"></script>
+<script>
+var table = layui.table;
+  table.render({
+    elem: '#test'
+    ,url:'/api/blogs'
+    ,title: '用户表'
+    ,cols: [[
+      {field:'_id', title:'博客编号', sort: true}
+      ,{field:'userId', title:'作者编号'}
+     ,{field:'blogTitle',title:'标题'}
+     ,{field:'blogContent',title:'内容'}
+     ,{field:'publishTime',title:'发表时间'}
+     ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
+    ]]
+    ,page: true
+  });
+  
+  table.on('tool(test)', function(obj){
+    var data = obj.data;
+    if(obj.event === 'del'){
+      layer.confirm('确认删除此博客？', function(index){
+        axios.delete('/api/blogs',{
+          params:{
+            _id:data._id
+          }
+        }).then(res=>{
+          layer.msg(res.data.message);
+        })
+        obj.del();
+        layer.close(index);
+      });
+    }
+  });
+</script>
