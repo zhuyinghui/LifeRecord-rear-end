@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <title>LifeRecord</title>
-    <link rel='stylesheet' href='/style.css' />
-    <link rel='stylesheet' href='/layui/css/layui.css' media="all"/>
+    <%- include('./public/common') %>
   </head>
   <body>
     <div class="content">
         <span class="layui-breadcrumb">
-            <a href="javascript:;">用户权限设置</a>
+            <a href="javascript:;">用户权限设置 / </a>
             <a><cite>角色管理</cite></a>
           </span>
       <table class="layui-hide" id="test" lay-filter="test"></table>
       <script type="text/html" id="toolbarDemo">
         <div class="layui-btn-container">
           <button class="layui-btn layui-btn-sm" onclick="addRole()">+添加角色</button>
+          <button class="layui-btn layui-btn-sm" id="test2">测试按钮</button>
         </div>
       </script>
       <script type="text/html" id="barDemo">
@@ -24,8 +22,6 @@
     </div>
   </body>
 </html>
-<script src="/layui/layui.all.js" charset="utf-8"></script>
-<script src="/axios/axios.min.js"></script>
 <script>
   var table = layui.table;
   table.render({
@@ -68,4 +64,8 @@
         area: ['500px', '300px']
       }); 
   }
+  function bindin(){
+    parent.document.getElementById("hiddenBtn").click();
+  }
+  bindin();
 </script>
