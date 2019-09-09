@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <title>LifeRecord</title>
-    <link rel='stylesheet' href='/style.css' />
-    <link rel='stylesheet' href='/layui/css/layui.css' media="all"/>
+    <%- include('./public/common') %>
   </head>
   <body>
     <div class="content">
@@ -13,10 +10,28 @@
           <a><cite>发布</cite></a>
         </span>
         <div class="blog">
-          <div>
-              <input type="text" id="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">  
-          </div>
-          <div id="editor"></div>
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                  <label class="layui-form-label">博客标题</label>
+                  <div class="layui-input-block">
+                    <input type="text" id="title" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                  </div>
+                </div>
+                <div class="layui-form-item">
+                  <label class="layui-form-label">博客类型</label>
+                  <div class="layui-input-block">
+                    <select id="blogType" name="blogType" lay-verify="required">
+                      <option value=""></option>
+                      <option value="0">前端开发</option>
+                      <option value="1">后端开发</option>
+                      <option value="2">生活记录</option>
+                      <option value="3">吃喝玩乐</option>
+                      <option value="4">环游世界</option>
+                    </select>
+                  </div>
+                </div>
+              </form>
+          <div id="editor"></div>  
           <div>
             <button class="layui-btn" lay-submit lay-filter="formDemo" onclick="publish()">发布</button>
             <button class="layui-btn" lay-submit lay-filter="formDemo" onclick="editor.txt.clear()">清空</button>
@@ -26,13 +41,18 @@
   </body>
 </html>
 <style>
+  .blog{
+    padding-top: 20px;
+  }
   .blog>div{
     margin-top: 10px;
   }
+  .layui-form-select dl{
+    z-index: 10002;
+  }
 </style>
-<script src="/layui/layui.all.js" charset="utf-8"></script>
-<script src="/axios/axios.min.js"></script>
 <script src="/editor/release/wangEditor.min.js"></script>
+<script src="/layui/layui.all.js"></script>
 <script>
   //创建编辑器
   let E = window.wangEditor
@@ -50,12 +70,14 @@
  
   function publish(){
     let title=document.querySelector('#title').value;
+    let blogtype=document.querySelector('#blogType').value;
     let content=editor.txt.html();
     let date=new Date().toLocaleString();
-    if(title!==''&&content!=='<p><br></p>'){
+    if(title!==''&&blogType!==''&&content!=='<p><br></p>'){
       axios.post('/api/blogs',{
-        userId:'123456',
+        userId:sessionStorage.sessionId,
         blogTitle:title,
+        blogType:blogtype,
         blogContent:content,
         publishTime:date
       }) 

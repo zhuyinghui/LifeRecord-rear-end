@@ -25,7 +25,7 @@ router.get('/', async ctx=> {
 //权限添加
 router.post('/',async ctx=>{
   let doc=new limitModel(ctx.request.body);
-  await doc.save().then(data=>{
+  await doc.save().then(()=>{
    ctx.body={
       message:'权限添加成功',
     }

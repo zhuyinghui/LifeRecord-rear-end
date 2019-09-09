@@ -1,8 +1,12 @@
 //博客表
 const mongoose = require("mongoose");
 const schema={
-    userId:String,
+    userId:{
+        type:String,
+        ref:'user'
+    },
     blogTitle:String,
+    blogType:Number,
     blogContent:String,
     publishTime:String
 }

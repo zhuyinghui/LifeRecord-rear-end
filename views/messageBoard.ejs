@@ -22,15 +22,15 @@
 var table = layui.table;
   table.render({
     elem: '#test'
-    ,url:'/api/blogs'
-    ,title: '博客表'
+    ,url:'/api/messages'
+    ,title: '留言表'
     ,cols: [[
-      {field:'_id', title:'博客编号', sort: true}
-      ,{field:'userId', title:'作者',templet:'<div>{{d.userId.userName}}</div>'}
-     ,{field:'blogTitle',title:'标题'}
-     ,{field:'blogType',title:'类型'}
-     ,{field:'blogContent',title:'内容'}
-     ,{field:'publishTime',title:'发表时间'}
+      {field:'_id', title:'留言编号', sort: true}
+      ,{field:'name', title:'姓名'}
+     ,{field:'phone',title:'电话'}
+     ,{field:'email',title:'邮箱'}
+     ,{field:'compony',title:'公司'}
+     ,{field:'content',title:'留言内容'}
      ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
     ]]
     ,page: true
@@ -39,8 +39,8 @@ var table = layui.table;
   table.on('tool(test)', function(obj){
     var data = obj.data;
     if(obj.event === 'del'){
-      layer.confirm('确认删除此博客？', function(index){
-        axios.delete('/api/blogs',{
+      layer.confirm('确认删除此留言？', function(index){
+        axios.delete('/api/messages',{
           params:{
             _id:data._id
           }
