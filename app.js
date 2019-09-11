@@ -1,4 +1,5 @@
- const Koa = require('koa')
+const Koa = require('koa')
+const cors = require('koa2-cors')
 const app = new Koa()
 const views = require('koa-views')
 const json = require('koa-json')
@@ -20,6 +21,9 @@ app.use(views(__dirname + '/views', {
   extension: 'ejs'
 }))
 
+//跨域处理
+app.use(cors());
+
 const url = require('url');
 app.use(async(ctx,next)=>{
   console.log(ctx.request.method+url.parse(ctx.request.url).pathname)
@@ -33,9 +37,7 @@ fs.readdirSync('./routes').forEach(route=> {
   app.use(api.routes(), api.allowedMethods())
 });
 
-//跨域处理
- const cors = require('koa2-cors');
- app.use(cors());
+
 
 // error-handling
 app.on('error', (err, ctx) => {

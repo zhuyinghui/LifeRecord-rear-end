@@ -4,7 +4,6 @@ const blogModel=require('../model/blogModel');
 
 //博客查询
 router.get('/', async ctx=> {
-  console.log('kkk')
   //表的总记录数
   let num=0;
    await blogModel.countDocuments().then(data=>{
