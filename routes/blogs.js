@@ -12,13 +12,41 @@ router.get('/', async ctx=> {
   //分页
   const skipNum=(ctx.request.query.page-1)*ctx.request.query.limit*1;
   const limitNum=ctx.request.query.limit*1;
-  await blogModel.find({}).populate('userId').skip(skipNum).limit(limitNum).then(data=>{
+  const typeNum=ctx.request.query.type;
+  if(typeNum==5){
+    await blogModel.find({}).sort({_id: -1}).populate('userId').skip(skipNum).limit(limitNum).then(data=>{
+      ctx.body={
+        code:0,
+        count:num,
+        data:data
+      }
+    })
+  }else{
+    await blogModel.find({blogType:typeNum}).sort({_id: -1}).populate('userId').skip(skipNum).limit(limitNum).then(data=>{
+      ctx.body={
+        code:0,
+        count:num,
+        data:data
+      }
+    })
+  }
+})
+
+//博客查看详情,并返回此博客前后两篇的id和标题
+router.get('/checkDetail',async ctx=>{
+  const { type,page,index }=ctx.request.query;
+  const skipNum=(page-1)*10+index*1;
+  await blogModel.find({blogType:type}).sort({_id: -1}).populate('userId').skip(skipNum).limit(1).then(data=>{
+    console.log(data)
     ctx.body={
-      code:0,
-      count:num,
-      data:data
+      data:data[0]
     }
-  })
+  });
+  // await blogModel.find({_id:blogId}).populate('userId').then(data=>{
+  //   ctx.body={
+  //     data:data[0]
+  //   }
+  // });
 })
 
 //博客添加
