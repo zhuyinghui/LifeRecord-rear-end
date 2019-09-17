@@ -6,9 +6,9 @@ const blogModel=require('../model/blogModel');
 router.get('/', async ctx=> {
   //表的总记录数
   let num=0;
-   await blogModel.countDocuments().then(data=>{
-     num=data;
-   })
+  await blogModel.countDocuments().then(data=>{
+    num=data;
+  })
   //分页
   const skipNum=(ctx.request.query.page-1)*ctx.request.query.limit*1;
   const limitNum=ctx.request.query.limit*1;
@@ -32,12 +32,12 @@ router.get('/', async ctx=> {
   }
 })
 
-//博客查看详情,并返回此博客前后两篇的id和标题
+//博客查看详情,并返回此博客前后两篇
 router.get('/checkDetail',async ctx=>{
   const { type,page,index }=ctx.request.query;
   const skipNum=(page-1)*10+index*1-1;
   const typeNum=type*1;
-  //注意：第一条记录和最后一条记录缺少前后记录
+  //注意：第一条记录和最后一条记录缺少前后记录的处理
   if(typeNum==5){
     //查询全部博客
     if(skipNum==-1){
@@ -67,14 +67,33 @@ router.get('/checkDetail',async ctx=>{
           ifFirst:true
         }
       });
+    }else{
+      await blogModel.find({blogType:typeNum}).sort({_id: -1}).populate('userId').skip(skipNum).limit(3).then(data=>{
+        console.log(data)
+        ctx.body={
+          data:data,
+          ifFirst:false
+        }
+      });
     }
-    await blogModel.find({blogType:typeNum}).sort({_id: -1}).populate('userId').skip(skipNum).limit(3).then(data=>{
-      console.log(data)
-      ctx.body={
-        data:data,
-        ifFirst:false
-      }
-    });
+  }
+})
+
+//查询博客类型的各数量
+router.get('/typeCount',async ctx=>{
+  let arr=[];
+  await blogModel.find({}).countDocuments().then(data=>{
+    console.log(555)
+    arr.push(data)
+  })
+  for(let i=0;i<5;i++){
+    await blogModel.find({blogType:i}).countDocuments().then(data=>{
+      console.log(i)
+      arr.push(data)
+    })
+  }
+  ctx.body={
+    data:arr
   }
 })
 
