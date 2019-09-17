@@ -13,7 +13,7 @@
       <script type="text/html" id="toolbarDemo">
         <div class="layui-btn-container">
           <button class="layui-btn layui-btn-sm" onclick="addRole()">+添加角色</button>
-          <button class="layui-btn layui-btn-sm" id="test2">测试按钮</button>
+          <!-- <button class="layui-btn layui-btn-sm" id="test2">测试按钮</button> -->
         </div>
       </script>
       <script type="text/html" id="barDemo">
@@ -38,7 +38,6 @@
     ,page: true
   });
   
-  //监听行工具事件
   table.on('tool(test)', function(obj){
     var data = obj.data;
     if(obj.event === 'del'){

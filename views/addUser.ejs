@@ -6,15 +6,15 @@
   <body>
         <form class="layui-form" action="">
             <div class="layui-form-item">
-              <label class="layui-form-label">权限名</label>
+              <label class="layui-form-label">用户名</label>
               <div class="layui-input-block">
-                <input name="limitName" type="text" required lay-verify="required" autocomplete="off" class="layui-input">
+                <input name="userName" type="text" required lay-verify="required" autocomplete="off" class="layui-input">
               </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">备注</label>
                 <div class="layui-input-block">
-                  <input name="limitRemark" type="text" required lay-verify="required" autocomplete="off" class="layui-input">
+                  <input name="userPassword" type="text" required lay-verify="required" autocomplete="off" class="layui-input">
                 </div>
               </div>
             <div class="layui-form-item">
@@ -34,7 +34,7 @@
 <script>
   let form = layui.form;
   form.on('submit(formDemo)', function(data){
-    axios.post('/api/limits',data.field).then(res=>{
+    axios.post('/api/users',data.field).then(res=>{
         layer.msg(res.data.message);
         setTimeout(()=>{
           let index = parent.layer.getFrameIndex(window.name); 

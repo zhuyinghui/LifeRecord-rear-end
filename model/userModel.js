@@ -4,17 +4,10 @@ const mongoose = require("mongoose");
 const schema={
     userName:String,
     userPassword:String,
-    headImage:{
-        type:String,
-        default:'/eg.jpg'
-    },
-    loverId:{
-        type:String,
-        default:'123456'
-    },
     roleId:{  
         type:String,
-        ref:'role'
+        default:'5d6888bea29dcc2658b2b4be',
+        ref:'role',
     }
 }
 const Schema=mongoose.Schema(schema);

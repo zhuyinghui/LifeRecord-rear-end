@@ -48,31 +48,32 @@ router.get('/', async ctx=> {
   })
 })
 
-//用户注册
+//添加用户
 router.post('/',async ctx=>{
   let doc=new userModel(ctx.request.body);
   await doc.save().then(data=>{
     ctx.body={
-      message:'注册成功',
+      message:'用户添加成功',
       data:data
     }
   })
 })
 
 //用户修改密码
-router.patch('/',async ctx=>{
-  await userModel.updateOne({userName:'11'},{ $set: { userPassword: '111' }}).then(()=>{
-    ctx.body={
-      message:'密码修改成功'
-    }
-  })
-})
+// router.patch('/',async ctx=>{
+//   await userModel.updateOne({userName:'11'},{ $set: { userPassword: '111' }}).then(()=>{
+//     ctx.body={
+//       message:'密码修改成功'
+//     }
+//   })
+// })
 
-//用户注销
+//删除用户
 router.delete('/',async ctx=>{
- await userModel.deleteOne({userName:'11'}).then(()=>{
+  const userId=ctx.request.query._id;
+ await userModel.deleteOne({_id:userId}).then(()=>{
     ctx.body={
-      message:'用户注销成功'
+      message:'用户删除成功'
     }
   })
 })

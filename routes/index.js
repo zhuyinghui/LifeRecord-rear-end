@@ -3,7 +3,7 @@ const router = require('koa-router')()
 //路由页
 router.get('/', async ctx=>{
   await ctx.render('index', {
-    alink: '/home'
+    alink: '/login'
   })
 });
 

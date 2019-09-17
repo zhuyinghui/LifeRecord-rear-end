@@ -42,7 +42,6 @@ router.get('/checkDetail',async ctx=>{
     //查询全部博客
     if(skipNum==-1){
       await blogModel.find({}).sort({_id: -1}).populate('userId').skip(0).limit(2).then(data=>{
-        console.log(data)
         ctx.body={
           data:data,
           ifFirst:true
@@ -50,7 +49,6 @@ router.get('/checkDetail',async ctx=>{
       });
     }else{
       await blogModel.find({}).sort({_id: -1}).populate('userId').skip(skipNum).limit(3).then(data=>{
-        console.log(data)
         ctx.body={
           data:data,
           ifFirst:false
@@ -61,7 +59,6 @@ router.get('/checkDetail',async ctx=>{
      //根据类型查询博客
     if(skipNum==-1){
       await blogModel.find({blogType:typeNum}).sort({_id: -1}).populate('userId').skip(0).limit(2).then(data=>{
-        console.log(data)
         ctx.body={
           data:data,
           ifFirst:true
@@ -69,7 +66,6 @@ router.get('/checkDetail',async ctx=>{
       });
     }else{
       await blogModel.find({blogType:typeNum}).sort({_id: -1}).populate('userId').skip(skipNum).limit(3).then(data=>{
-        console.log(data)
         ctx.body={
           data:data,
           ifFirst:false
@@ -83,12 +79,10 @@ router.get('/checkDetail',async ctx=>{
 router.get('/typeCount',async ctx=>{
   let arr=[];
   await blogModel.find({}).countDocuments().then(data=>{
-    console.log(555)
     arr.push(data)
   })
   for(let i=0;i<5;i++){
     await blogModel.find({blogType:i}).countDocuments().then(data=>{
-      console.log(i)
       arr.push(data)
     })
   }

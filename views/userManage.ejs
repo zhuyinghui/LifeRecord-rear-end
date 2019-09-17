@@ -10,8 +10,14 @@
             <a><cite>用户管理</cite></a>
           </span>
       <table class="layui-hide" id="test" lay-filter="test"></table>
+      <script type="text/html" id="toolbarDemo">
+        <div class="layui-btn-container">
+          <button class="layui-btn layui-btn-sm" onclick="addUser()">+添加用户</button>
+        </div>
+      </script>
       <script type="text/html" id="barDemo">
-        <a class="layui-btn layui-btn-xs" lay-event="edit">修改角色</a>
+        <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+        <a class="layui-btn layui-btn-xs" lay-event="del">删除</a>
       </script>
     </div>
   </body>
@@ -22,29 +28,34 @@
   table.render({
     elem: '#test'
     ,url:'/api/users'
+    ,toolbar: '#toolbarDemo'
     ,title: '用户表'
     ,cols: [[
       {field:'_id', title:'用户编号', sort: true}
       ,{field:'userName', title:'用户名'}
      ,{field:'userPassword',title:'用户密码'}
-     ,{field:'headImage',title:'头像'}
-     ,{field:'loverId',title:'情侣'}
      ,{field:'roleId',title:'角色',templet: `<div>{{d.roleId.roleName}}</div>`}
      ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
     ]]
     ,page: true
   });
-  //监听行工具事件
   table.on('tool(test)', function(obj){
     let data = obj.data;
     if(obj.event === 'del'){
-      layer.confirm('真的删除行么', function(index){
+      layer.confirm('确认删除此用户？', function(index){
+        axios.delete('/api/users',{
+          params:{
+            _id:data._id
+          }
+        }).then(res=>{
+          layer.msg(res.data.message);
+        })
         obj.del();
         layer.close(index);
       });
     } else if(obj.event === 'edit'){
       layer.open({
-        title:'添加用户',
+        title:'修改用户信息',
         type: 2, 
         content: ['/changeRole', 'no'],
         area: ['500px', '400px'],
@@ -56,5 +67,13 @@
       }); 
     }
   });
+  function addUser(){
+    layer.open({
+        title:'添加用户',
+        type: 2, 
+        content: ['/addUser', 'no'],
+        area: ['500px', '300px']
+      }); 
+  }
 
 </script>
