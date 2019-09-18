@@ -1,10 +1,12 @@
 const router = require('koa-router')();
 router.prefix('/api/users');
 const userModel=require('../model/userModel');
+const md5=require('md5');
 
 //用户登录
 router.post('/login',async ctx=>{
-  const info=ctx.request.body;
+  let info=ctx.request.body;
+  info.userPassword=md5(info.userPassword);
   await userModel.find({userName:info.userName}).then(data=>{
     if(data.length==0){
       ctx.body={
@@ -15,9 +17,10 @@ router.post('/login',async ctx=>{
       if(data[0].userPassword==info.userPassword){
         ctx.body={
           status:1,
-          message:'登录成功',
-          sessionId:data[0]._id
+          message:'登录成功'
         }
+        //将用户编号存为session
+        ctx.session.login=data[0]._id;
       }else{
         ctx.body={
           status:0,
@@ -50,23 +53,24 @@ router.get('/', async ctx=> {
 
 //添加用户
 router.post('/',async ctx=>{
-  let doc=new userModel(ctx.request.body);
-  await doc.save().then(data=>{
-    ctx.body={
-      message:'用户添加成功',
-      data:data
+  let info=ctx.request.body;
+  info.userPassword=md5(info.userPassword);
+  await userModel.find({userName:info.userName}).then(async data=>{
+    if(data.length==0){
+      let doc=new userModel(info);
+      await doc.save().then(()=>{
+        ctx.body={
+          message:'用户添加成功',
+        }
+      })
+    }else{
+        ctx.body={
+          message:'用户已存在'
+        }
     }
   })
+  
 })
-
-//用户修改密码
-// router.patch('/',async ctx=>{
-//   await userModel.updateOne({userName:'11'},{ $set: { userPassword: '111' }}).then(()=>{
-//     ctx.body={
-//       message:'密码修改成功'
-//     }
-//   })
-// })
 
 //删除用户
 router.delete('/',async ctx=>{
@@ -81,13 +85,11 @@ router.delete('/',async ctx=>{
 //修改用户角色
 router.post('/changeRole',async ctx=>{
   let info=ctx.request.body;
-  await userModel.update({_id:info._id},{$set:{roleId:info.roleId}}).then(()=>{
+  await userModel.updateOne({_id:info._id},{$set:{roleId:info.roleId}}).then(()=>{
     ctx.body={
       message:'角色修改成功'
     }
   })
 })
 
-
-
-module.exports = router
+module.exports = router;

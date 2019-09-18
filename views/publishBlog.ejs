@@ -75,7 +75,6 @@
     let date=new Date().toLocaleString();
     if(title!==''&&blogType!==''&&content!=='<p><br></p>'){
       axios.post('/api/blogs',{
-        userId:sessionStorage.sessionId,
         blogTitle:title,
         blogType:blogtype,
         blogContent:content,

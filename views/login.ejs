@@ -8,7 +8,7 @@
   </head>
   <body>
     <div class="content">
-      <h1>个人博客管理后台</h1>
+      <h1>LifeRecord</h1>
       <form class="layui-form" action="">
         <div class="layui-form-item">
             <label class="layui-form-label">用户名</label>
@@ -28,6 +28,8 @@
               </div>
             </div>
         </form>
+        <br>
+        <p>游客账号：visitor  密码：123</p>
     </div>
   </body>
 </html>
@@ -60,14 +62,11 @@ form.on('submit(formDemo)', function(data){
     axios.post('/api/users/login',data.field,)
     .then(res=>{
       if(res.data.status==1){
-        if (typeof(Storage) !== "undefined") {
           layer.msg(res.data.message);
-          sessionStorage.setItem('sessionId',res.data.sessionId)
-        }else{
-          console.error('浏览器不支持HTML本地存储对象')
-        }
-        window.location.href='/';
-        axios.defaults.headers.sessionId="12345678910";
+          //登陆成功跳转至发布博客页面
+          setTimeout(()=>{
+            window.location.href='/publishBlog';
+          },1000)
       }else{
         layer.msg(res.data.message);
       }

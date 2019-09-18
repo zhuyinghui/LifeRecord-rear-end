@@ -2,12 +2,13 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>LifeRecord</title>
+    <title>LifeRecord-后台管理</title>
     <link rel='stylesheet' href='/style.css' />
     <link rel='stylesheet' href='/layui/css/layui.css' media="all"/>
+    <link rel="shortcut icon" href=" /images/favicon.ico" type="image/x-icon" /> 
   </head>
   <body>
-    <button id="hiddenBtn" onclick="hiddenBtn()" style="display: none;">隐藏按钮</button>
+    <!-- <button id="hiddenBtn" onclick="hiddenBtn()" style="display: none;">隐藏按钮</button> -->
     <%- include('./public/header') %>
     <div class="container">
       <iframe src="<%= alink %>" height="100%" width="100%" scrolling="no" name="Ciframe" id="iframe">
@@ -25,10 +26,10 @@ html{
 }
 </style>
 <script>
-  function hiddenBtn(){
-    document.getElementById("iframe").contentDocument.getElementById("test2").addEventListener('click',()=>{
-      alert(22)
-    })
-  }
+  // function hiddenBtn(){
+  //   document.getElementById("iframe").contentDocument.getElementById("test2").addEventListener('click',()=>{
+  //     alert(22)
+  //   })
+  // }
   
 </script>

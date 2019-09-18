@@ -40,5 +40,4 @@ fs.readdirSync('./views').forEach(page=> {
   })
 });
 
-
 module.exports = router

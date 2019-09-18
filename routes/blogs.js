@@ -93,7 +93,9 @@ router.get('/typeCount',async ctx=>{
 
 //博客添加
 router.post('/',async ctx=>{
-  let doc=new blogModel(ctx.request.body);
+  let obj=ctx.request.body;
+  obj.userId=ctx.session.login;
+  let doc=new blogModel(obj);
   await doc.save().then(()=>{
     ctx.body={
       message:'博客发布成功',
@@ -107,10 +109,10 @@ router.delete('/',async ctx=>{
  await blogModel.deleteOne({_id:ctx.request.query._id})
  .then(()=>{
     ctx.body={
-      message:'日志删除成功'
+      message:'博客删除成功'
     }
   })
 })
 
 
-module.exports = router
+module.exports = router;
