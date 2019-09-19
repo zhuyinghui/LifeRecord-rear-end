@@ -39,7 +39,7 @@ const url = require('url');
 app.use(async(ctx,next)=>{
   const path=url.parse(ctx.request.url).pathname;
   const limitpath=ctx.request.method+path;
-  if(path!=='/'&&path!=='/login'&&path!=='/api/users/login'&&path!=='/api/blogs/checkDetail'&&path!=='/api/blogs/typeCount'&&limitpath!=='POST/api/messages'){
+  if(path!=='/'&&path!=='/login'&&path!=='/api/users/login'&&path!=='/api/blogs'&&path!=='/api/blogs/checkDetail'&&path!=='/api/blogs/typeCount'&&limitpath!=='POST/api/messages'){
     //非登录操作做拦截
     if(ctx.session.login){
       //已登录
